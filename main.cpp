@@ -6,10 +6,7 @@ Date Started: 26/05/2024
 
 #include <iostream>
 #include "sudoku_functions.hpp"
-#include "sudoku_data.hpp"
 
-const int ROWS = 9;
-const int COLUMNS = 9;
 int BLANKS = 40;
 int sudoku_arr[9][9];
 
