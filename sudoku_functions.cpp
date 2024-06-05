@@ -10,19 +10,23 @@ bool createSudoku(int (&sudoku_arr)[9][9]){
     int col = 0;
     for(row; row < ROWS; row++){
         for(col; col < COLUMNS; col++){
-            srand(time(NULL));
+            srand((unsigned) time(NULL));
             value = (rand() % 9) + 1;
-            while(!(rowChecker(value, sudoku_arr[row], col) && colChecker(value, sudoku_arr, row, col) && boxChecker(value, sudoku_arr, row, col))){
+            while(!(rowChecker(value, sudoku_arr[row], col) && colChecker(value, sudoku_arr, row, col))){
                 
                 if(!boxChecker(value, sudoku_arr, row, col)){
-                    col--;
+                    for(int k = 0; k < 9; k++)
+                        sudoku_arr[row][k] = 0;
+                    col = 0;
+                    /*col--;
                     if(col < 0){
                         row--;
                         col = 8;
                     }
-                    sudoku_arr[row][col] = 0;
+                    sudoku_arr[row][col] = 0;*/
                 }
-                
+
+                srand((unsigned) time(NULL));
                 value = (rand() % 9) + 1;
                 printSudoku(sudoku_arr);
             }
