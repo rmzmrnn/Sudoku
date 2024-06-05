@@ -6,10 +6,23 @@ const int COLUMNS = 9;
 
 bool createSudoku(int (&sudoku_arr)[9][9]){
     int value;
-    for(int row = 0; row < ROWS; row++){
-        for(int col = 0; col < COLUMNS; col++){
+    int row = 0;
+    int col = 0;
+    for(row; row < ROWS; row++){
+        for(col; col < COLUMNS; col++){
+            srand(time(NULL));
             value = (rand() % 9) + 1;
             while(!(rowChecker(value, sudoku_arr[row], col) && colChecker(value, sudoku_arr, row, col) && boxChecker(value, sudoku_arr, row, col))){
+                
+                if(!boxChecker(value, sudoku_arr, row, col)){
+                    col--;
+                    if(col < 0){
+                        row--;
+                        col = 8;
+                    }
+                    sudoku_arr[row][col] = 0;
+                }
+                
                 value = (rand() % 9) + 1;
                 printSudoku(sudoku_arr);
             }
