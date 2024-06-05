@@ -11,9 +11,12 @@ int BLANKS = 40;
 int sudoku_arr[9][9];
 
 int main(){
-    createSudoku(sudoku_arr);
+    while(!createSudoku(sudoku_arr)){
+        //std::cout << "Creating Sudoku...\n";
+        printSudoku(sudoku_arr);
+    };
     //sudokuCleaner(sudoku_arr);
-    printSudoku(sudoku_arr);
+    //printSudoku(sudoku_arr);
     system("pause");
     //solveSudoku();
     return 0;
