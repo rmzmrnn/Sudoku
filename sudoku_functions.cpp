@@ -4,36 +4,74 @@
 const int ROWS = 9;
 const int COLUMNS = 9;
 
-bool createSudoku(int (&sudoku_arr)[9][9]){
+void createSudoku(int (&sudoku_arr)[9][9]){
     int value;
-    int row = 0;
-    int col = 0;
-    for(row; row < ROWS; row++){
-        for(col; col < COLUMNS; col++){
+
+    for(int col = 0; col < COLUMNS; col++){
+        if(sudoku_arr[0][col] == 0){
             srand((unsigned) time(NULL));
             value = (rand() % 9) + 1;
-            while(!(rowChecker(value, sudoku_arr[row], col) && colChecker(value, sudoku_arr, row, col))){
-                
-                if(!boxChecker(value, sudoku_arr, row, col)){
-                    for(int k = 0; k < 9; k++)
-                        sudoku_arr[row][k] = 0;
-                    col = 0;
-                    /*col--;
-                    if(col < 0){
+            while(!rowChecker(value, sudoku_arr[0], col)){
+                value = (rand() % 9) + 1;
+            }
+            sudoku_arr[0][col] = value;
+        }
+    }
+
+    printSudoku(sudoku_arr);
+    system("pause");
+
+    for(int row = 1; row < ROWS; row++){
+        for(int col = 0; col < COLUMNS; col++){
+            if(sudoku_arr[row][col] == 0){
+                srand((unsigned) time(NULL));
+                value = (rand() % 9) + 1;
+                /*if(rowChecker(value, sudoku_arr[row], col) && colChecker(value, sudoku_arr, row, col) && boxChecker(value, sudoku_arr, row, col)){
+                    sudoku_arr[row][col] = value;
+                }/*else if (!boxChecker(value, sudoku_arr, row, col)){
+                    col--;
+                    if(col < 0 && row > 0){
                         row--;
                         col = 8;
                     }
-                    sudoku_arr[row][col] = 0;*/
+                    
+                    if (col < 0 && row == 0){
+                        col = 0;
+                    }
+                    sudoku_arr[row][col] = 0;
+                }*/
+                while(!(rowChecker(value, sudoku_arr[row], col) && colChecker(value, sudoku_arr, row, col))){
+                    col--;
+                    if(col < 0 && row > 0){
+                        row--;
+                        col = 8;
+                    }
+                    
+                    if (col < 0 && row == 0){
+                        col = 0;
+                    }
+                    //sudoku_arr[row][col] = 0; //TEST!!!!
+                    value = (rand() % 9) + 1;
                 }
-
-                srand((unsigned) time(NULL));
-                value = (rand() % 9) + 1;
-                printSudoku(sudoku_arr);
+                if(boxChecker(value, sudoku_arr, row, col)){
+                    sudoku_arr[row][col] = value;
+                }else{
+                    col--;
+                    if(col < 0 && row > 0){
+                        row--;
+                        col = 8;
+                    }
+                    
+                    if (col < 0 && row == 0){
+                        col = 0;
+                    }
+                    //sudoku_arr[row][col] = 0; //TEST!!!!
+                }
+                //system("pause");
             }
-            sudoku_arr[row][col] = value;
+            printf("Row: %d\tColumn: %d\n", row + 1, col + 1);
         }
     }
-    return false;
 }
 
 /*bool sudokuChecker(int (&sudoku_arr)[9][9]){
