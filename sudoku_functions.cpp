@@ -8,14 +8,12 @@ void createSudoku(int (&sudoku_arr)[9][9]){
     int value;
 
     for(int col = 0; col < COLUMNS; col++){
-        if(sudoku_arr[0][col] == 0){
-            srand((unsigned) time(NULL));
+        srand((unsigned) time(NULL));
+        value = (rand() % 9) + 1;
+        while(!rowChecker(value, sudoku_arr[0], col)){
             value = (rand() % 9) + 1;
-            while(!rowChecker(value, sudoku_arr[0], col)){
-                value = (rand() % 9) + 1;
-            }
-            sudoku_arr[0][col] = value;
         }
+        sudoku_arr[0][col] = value;
     }
 
     printSudoku(sudoku_arr);
@@ -50,12 +48,32 @@ void createSudoku(int (&sudoku_arr)[9][9]){
                     if (col < 0 && row == 0){
                         col = 0;
                     }
+
+                    /*col--;
+                    if(col < 0 && row > 0){
+                        row--;
+                        col = 8;
+                    }
+                    
+                    if (col < 0 && row == 0){
+                        col = 0;
+                    }*/
                     //sudoku_arr[row][col] = 0; //TEST!!!!
                     value = (rand() % 9) + 1;
                 }
                 if(boxChecker(value, sudoku_arr, row, col)){
                     sudoku_arr[row][col] = value;
                 }else{
+                    col--;
+                    if(col < 0 && row > 0){
+                        row--;
+                        col = 8;
+                    }
+                    
+                    if (col < 0 && row == 0){
+                        col = 0;
+                    }
+
                     col--;
                     if(col < 0 && row > 0){
                         row--;
