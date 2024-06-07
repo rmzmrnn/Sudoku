@@ -22,11 +22,9 @@ void createSudoku(int (&sudoku_arr)[9][9]){
     for(int row = 1; row < ROWS; row++){
         for(int col = 0; col < COLUMNS; col++){
             if(sudoku_arr[row][col] == 0){
-                srand((unsigned) time(NULL));
-                value = (rand() % 9) + 1;
-                /*if(rowChecker(value, sudoku_arr[row], col) && colChecker(value, sudoku_arr, row, col) && boxChecker(value, sudoku_arr, row, col)){
-                    sudoku_arr[row][col] = value;
-                }/*else if (!boxChecker(value, sudoku_arr, row, col)){
+                //srand((unsigned) time(NULL));
+                //value = (rand() % 9) + 1;
+                /*while(!(rowChecker(value, sudoku_arr[row], col) && colChecker(value, sudoku_arr, row, col))){
                     col--;
                     if(col < 0 && row > 0){
                         row--;
@@ -36,31 +34,15 @@ void createSudoku(int (&sudoku_arr)[9][9]){
                     if (col < 0 && row == 0){
                         col = 0;
                     }
-                    sudoku_arr[row][col] = 0;
-                }*/
-                while(!(rowChecker(value, sudoku_arr[row], col) && colChecker(value, sudoku_arr, row, col))){
-                    col--;
-                    if(col < 0 && row > 0){
-                        row--;
-                        col = 8;
-                    }
-                    
-                    if (col < 0 && row == 0){
-                        col = 0;
-                    }
-
-                    /*col--;
-                    if(col < 0 && row > 0){
-                        row--;
-                        col = 8;
-                    }
-                    
-                    if (col < 0 && row == 0){
-                        col = 0;
-                    }*/
-                    //sudoku_arr[row][col] = 0; //TEST!!!!
                     value = (rand() % 9) + 1;
+                }*/
+                
+                for(value = 1; value <= 9; value++){
+                    if((rowChecker(value, sudoku_arr[row], col) && colChecker(value, sudoku_arr, row, col))){
+                        break;
+                    }
                 }
+                
                 if(boxChecker(value, sudoku_arr, row, col)){
                     sudoku_arr[row][col] = value;
                 }else{
@@ -83,11 +65,11 @@ void createSudoku(int (&sudoku_arr)[9][9]){
                     if (col < 0 && row == 0){
                         col = 0;
                     }
-                    //sudoku_arr[row][col] = 0; //TEST!!!!
                 }
-                //system("pause");
             }
+            printSudoku(sudoku_arr);
             printf("Row: %d\tColumn: %d\n", row + 1, col + 1);
+            system("pause");
         }
     }
 }
@@ -135,21 +117,24 @@ bool boxChecker(int value, int (&sudoku_arr)[9][9], int row, int col){
                 for(int j = 0; j < 3; j++){
                     if (i == row && j == col)
                         box[i][j] = 0;
-                    box[i][j] = sudoku_arr[i][j];
+                    else
+                        box[i][j] = sudoku_arr[i][j];
                 }
         }else if (col < 6){
             for(int i = 0; i < 3; i++)
                 for(int j = 0; j < 3; j++){
                     if (i == row && j + 3 == col)
                         box[i][j] = 0;
-                    box[i][j] = sudoku_arr[i][j + 3];
+                    else
+                        box[i][j] = sudoku_arr[i][j + 3];
                 }
         }else{
             for(int i = 0; i < 3; i++)
                 for(int j = 0; j < 3; j++){
                     if (i == row && j + 6 == col)
                         box[i][j] = 0;
-                    box[i][j] = sudoku_arr[i][j + 6];
+                    else
+                        box[i][j] = sudoku_arr[i][j + 6];
                 }
         }
     }else if (row < 6){
@@ -158,21 +143,24 @@ bool boxChecker(int value, int (&sudoku_arr)[9][9], int row, int col){
                 for(int j = 0; j < 3; j++){
                     if (i == row && j == col)
                         box[i - 3][j] = 0;
-                    box[i - 3][j] = sudoku_arr[i][j];
+                    else
+                        box[i - 3][j] = sudoku_arr[i][j];
                 }
         }else if (col < 6){
             for(int i = 3; i < 6; i++)
                 for(int j = 0; j < 3; j++){
                     if (i == row && j + 3 == col)
                         box[i - 3][j] = 0;
-                    box[i - 3][j] = sudoku_arr[i][j + 3];
+                    else
+                        box[i - 3][j] = sudoku_arr[i][j + 3];
                 }
         }else{
             for(int i = 3; i < 6; i++)
                 for(int j = 0; j < 3; j++){
                     if (i == row && j + 6 == col)
                         box[i - 3][j] = 0;
-                    box[i - 3][j] = sudoku_arr[i][j + 6];
+                    else
+                        box[i - 3][j] = sudoku_arr[i][j + 6];
                 }
         }
     }else{
@@ -181,21 +169,24 @@ bool boxChecker(int value, int (&sudoku_arr)[9][9], int row, int col){
                 for(int j = 0; j < 3; j++){
                     if (i == row && j == col)
                         box[i - 6][j] = 0;
-                    box[i - 6][j] = sudoku_arr[i][j];
+                    else
+                        box[i - 6][j] = sudoku_arr[i][j];
                 }
         }else if (col < 6){
             for(int i = 6; i < 9; i++)
                 for(int j = 0; j < 3; j++){
                     if (i == row && j + 3 == col)
                         box[i - 6][j] = 0;
-                    box[i - 6][j] = sudoku_arr[i][j + 3];
+                    else
+                        box[i - 6][j] = sudoku_arr[i][j + 3];
                 }
         }else{
             for(int i = 6; i < 9; i++)
                 for(int j = 0; j < 3; j++){
                     if (i == row && j + 6 == col)
                         box[i - 6][j] = 0;
-                    box[i - 6][j] = sudoku_arr[i][j + 6];
+                    else
+                        box[i - 6][j] = sudoku_arr[i][j + 6];
                 }
         }
     }
