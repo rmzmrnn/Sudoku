@@ -1,5 +1,13 @@
 #include "sudoku_functions.hpp"
 
+struct Cell{
+    int value;
+    int row;
+    int col;
+};
+
+Cell cells[BLANKS];
+
 bool isPresentInCol(int (&grid)[9][9], int col, int num){ //check whether num is present in col or not
    for (int row = 0; row < N; row++)
       if (grid[row][col] == num)
@@ -66,4 +74,24 @@ bool solveSudoku(int (&grid)[9][9]){
       }
    }
    return false;
+}
+
+void fillBlanks(int (&grid)[9][9], int blanks){
+    srand((unsigned) time(NULL));
+    int row, col;
+
+    for(blanks; blanks > 0; blanks--){
+        row = (rand() % 9) + 1;
+        col = (rand() % 9) + 1;
+
+        cells[blanks].value = grid[row][col];
+        cells[blanks].row = row;
+        cells[blanks].col = col;
+
+        grid[row][col] = 0;
+    }
+}
+
+void getHint(){
+
 }
