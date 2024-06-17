@@ -7,7 +7,7 @@ Date Started: 26/05/2024
 #include <iostream>
 #include "sudoku_functions.hpp"
 
-int sudoku_arr[N][N] = {
+int grid[N][N] = {
     {3, 0, 6, 5, 0, 8, 4, 0, 0},
     {5, 2, 0, 0, 0, 0, 0, 0, 0},
     {0, 8, 7, 0, 0, 0, 0, 3, 1},
@@ -20,8 +20,8 @@ int sudoku_arr[N][N] = {
 };
 
 int main(){
-   if (solveSudoku() == true)
-      sudokuGrid();
+   if (solveSudoku(grid) == true)
+      sudokuGrid(grid);
    else
       cout << "No solution exists";
 }
