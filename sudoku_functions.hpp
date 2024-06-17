@@ -1,10 +1,11 @@
-#include <cstdlib>
 #include <iostream>
-#include <algorithm>
+#define N 9
+using namespace std;
 
-void createSudoku(int (&sudoku_arr)[9][9]);
-//bool sudokuChecker(int (&sudoku_arr)[9][9]);
-bool rowChecker(int value, int (&sudoku_arr)[9], int col);
-bool colChecker(int value, int (&sudoku_arr)[9][9], int row, int col);
-bool boxChecker(int value, int (&sudoku_arr)[9][9], int row, int col);
-void printSudoku(int (&sudoku_arr)[9][9]);
+bool isPresentInCol(int col, int num);
+bool isPresentInRow(int row, int num);
+bool isPresentInBox(int boxStartRow, int boxStartCol, int num)
+void sudokuGrid();
+bool findEmptyPlace(int &row, int &col);
+bool isValidPlace(int row, int col, int num);
+bool solveSudoku();
