@@ -24,6 +24,8 @@ int grid[N][N];
 
 int main(){
     int value = 0;
+    int hints = 10;
+
     for(int col = 0; col < N; col++){
         srand((unsigned) time(NULL));
         value = (rand() % 9) + 1;
@@ -37,16 +39,28 @@ int main(){
     //system("pause");
 
     string choice;
+    string want_hint;
 
     if (solveSudoku(grid))
         cout << "Do you want to solve the puzzle? (yes/no): ";
         cin >> choice;
         if(choice == "yes"){
-            fillBlanks(grid, BLANKS);
-            sudokuGrid(grid);
+            fillBlanks(grid);
+            printSudoku(grid);
         }else if(choice == "no")
-            sudokuGrid(grid);
+            printSudoku(grid);
     else
         cout << "No solution exists";
+
+    while(hints > 0){
+        cout << "Want a hint? (yes/no)";
+        cin >> want_hint;
+        if(want_hint == "yes"){
+            getHint(grid, hints);
+            printSudoku(grid);
+        }else if (want_hint == "no"){
+            printSudoku(grid);
+        }
+    }
 
 }

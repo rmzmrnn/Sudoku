@@ -6,7 +6,9 @@ struct Cell{
     int col;
 };
 
-Cell cells[BLANKS];
+Cell cells[40];
+int hint_grid[9][9];
+int blanks = 40;
 
 bool isPresentInCol(int (&grid)[9][9], int col, int num){ //check whether num is present in col or not
    for (int row = 0; row < N; row++)
@@ -31,7 +33,7 @@ bool isPresentInBox(int (&grid)[9][9], int boxStartRow, int boxStartCol, int num
    return false;
 }
 
-void sudokuGrid(int (&grid)[9][9]){
+void printSudoku(int (&grid)[9][9]){
     cout << "-------------------------------\n";
     for(int row = 0; row < N; row++){
         cout << "|";
@@ -76,22 +78,33 @@ bool solveSudoku(int (&grid)[9][9]){
    return false;
 }
 
-void fillBlanks(int (&grid)[9][9], int blanks){
-    srand((unsigned) time(NULL));
-    int row, col;
+void fillBlanks(int (&grid)[9][9]){
+   srand((unsigned) time(NULL));
+   int row, col;
 
-    for(blanks; blanks > 0; blanks--){
-        row = (rand() % 9) + 1;
-        col = (rand() % 9) + 1;
+   for(blanks; blanks > 0; blanks--){
+      row = rand() % 9;
+      col = rand() % 9;
 
-        cells[blanks].value = grid[row][col];
-        cells[blanks].row = row;
-        cells[blanks].col = col;
+      while(hint_grid[row][col] != 0){
+         row = rand() % 9;
+         col = rand() % 9;
+      }
 
-        grid[row][col] = 0;
-    }
+      hint_grid[row][col] = grid[row][col];
+      grid[row][col] = 0;
+   }
 }
 
-void getHint(){
-
+int getHint(int (&grid)[9][9], int &hints){
+   for(int row = 0; row < 9; row++){
+      for(int col = 0; col < 9; col++){
+         if(hint_grid[row][col] != 0){
+            grid[row][col] = hint_grid[row][col];
+            hint_grid[row][col] = 0;
+            hints--;
+            return 0;
+         }
+      }
+   }
 }
