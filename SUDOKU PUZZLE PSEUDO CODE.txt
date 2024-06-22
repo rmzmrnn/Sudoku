@@ -1,0 +1,18 @@
+SUDOKU PUZZLE PSEUDO CODE
+
+1. Generate sudoku puzzle
+2. print sudoku puzzle
+*do this continuously until command is "quit" or sudoku is solved*
+	3. type command for hint or fill-up a cell ->
+		3a. type "h" for hint
+		3b. type a number sequence to fill-up a cell (E.g. 539 -> value:5 row:3 col:9)
+	4. display sudoku puzzle with hint if 3a
+	5. display sudoku puzzle with value if 3b
+
+if there are no more blanks
+	6a. check sudoku
+	6b. quit the program if sudoku is solved
+else
+	7. ask for another command
+
+8. Quit program if sudoku is solved or the user chooses to

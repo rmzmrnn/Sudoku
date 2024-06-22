@@ -1,14 +1,28 @@
 #include "sudoku_functions.hpp"
 
 struct Cell{
-    int value;
-    int row;
-    int col;
+   int value;
+   int row;
+   int col;
 };
 
-Cell cells[40];
+Cell cell;
+vector <Cell> cells;
+
 int hint_grid[9][9];
 int blanks = 40;
+
+void generateRow(int (&grid)[9][9]){
+   int value;
+   for(int col = 0; col < N; col++){
+        srand((unsigned) time(NULL));
+        value = (rand() % 9) + 1;
+        while(isPresentInRow(grid, 0, value)){
+            value = (rand() % 9) + 1;
+        }
+        grid[0][col] = value;
+    }
+}
 
 bool isPresentInCol(int (&grid)[9][9], int col, int num){ //check whether num is present in col or not
    for (int row = 0; row < N; row++)
@@ -97,14 +111,68 @@ void fillBlanks(int (&grid)[9][9]){
 }
 
 int getHint(int (&grid)[9][9], int &hints){
+   if(hints > 0){
+      for(int row = 0; row < 9; row++){
+         for(int col = 0; col < 9; col++){
+            if(hint_grid[row][col] != 0){
+               grid[row][col] = hint_grid[row][col];
+               hint_grid[row][col] = 0;
+               hints--;
+               cout << "You have " << hints << "/10 hints left.\n";
+               return 0;
+            }
+         }
+      }
+   }else{
+      cout << "You have " << hints << ".\n";
+   }
+   return 0;
+}
+
+bool isNumber(string s){
+   for(auto character:s){
+      if(!isdigit(character)){
+         return false;
+      }
+   }
+   return true;
+}
+
+bool checkBlanks(int (&grid)[9][9]){
    for(int row = 0; row < 9; row++){
       for(int col = 0; col < 9; col++){
-         if(hint_grid[row][col] != 0){
-            grid[row][col] = hint_grid[row][col];
-            hint_grid[row][col] = 0;
-            hints--;
-            return 0;
+         if(grid[row][col] == 0){
+            cout << "You still have blank/s in the puzzle.";
+            return true;
          }
       }
    }
+   return false;
+}
+
+bool checkSudoku(int (&grid)[9][9]){
+   for(int row = 0; row < 9; row++){
+      for(int col = 0; col < 9; col++){
+         if(isValidPlace(grid, row, col, grid[row][col])){
+            continue;
+         }else{
+            cell.value = grid[row][col];
+            cell.row = row;
+            cell.col = col;
+
+            cells.push_back(cell);
+         }
+      }
+   }
+
+   if(!cells.empty()){
+      for(auto cell:cells){
+         cout << "Wrong Cells:\n";
+         cout << "Value: " << cell.value << "\tRow: " << cell.row << "\tCol: " << cell.col << endl;
+      }
+      return false;
+   }
+
+   return true;
+
 }
