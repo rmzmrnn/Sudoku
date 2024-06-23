@@ -18,3 +18,8 @@ int getHint(int (&grid)[9][9], int &hints);
 bool isNumber(string s);
 bool checkBlanks(int (&grid)[9][9]);
 bool checkSudoku(int (&grid)[9][9]);
+bool isOccupied(string command, int (&copy_grid)[9][9]);
+void copyGrid(int (&grid)[9][9], int (&copy_grid)[9][9]);
+bool checkCol(int (&grid)[9][9], int row, int col, int num);
+bool checkRow(int (&grid)[9][9], int row, int col, int num);
+bool checkBox(int (&grid)[9][9], int boxStartRow, int boxStartCol, int row, int col, int num);

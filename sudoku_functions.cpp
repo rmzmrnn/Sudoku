@@ -25,9 +25,20 @@ void generateRow(int (&grid)[9][9]){
 }
 
 bool isPresentInCol(int (&grid)[9][9], int col, int num){ //check whether num is present in col or not
-   for (int row = 0; row < N; row++)
+   for (int row = 0; row < N; row++){
       if (grid[row][col] == num)
          return true;
+   }
+   return false;
+}
+
+bool checkCol(int (&grid)[9][9], int row, int col, int num){ //check whether num is present in col or not
+   for (int i = 0; i < N; i++){
+      if(i == row)
+         continue;
+      if (grid[i][col] == num)
+         return true;
+   }
    return false;
 }
 
@@ -38,12 +49,37 @@ bool isPresentInRow(int (&grid)[9][9], int row, int num){ //check whether num is
    return false;
 }
 
+bool checkRow(int (&grid)[9][9], int row, int col, int num){ //check whether num is present in row or not
+   for (int j = 0; j < N; j++){
+      if(j == col)
+         continue;
+      if (grid[row][j] == num)
+         return true;
+   }
+   return false;
+}
+
 bool isPresentInBox(int (&grid)[9][9], int boxStartRow, int boxStartCol, int num){
 //check whether num is present in 3x3 box or not
-   for (int row = 0; row < 3; row++)
-      for (int col = 0; col < 3; col++)
+   for (int row = 0; row < 3; row++){
+      for (int col = 0; col < 3; col++){
          if (grid[row+boxStartRow][col+boxStartCol] == num)
             return true;
+      }
+   }
+   return false;
+}
+
+bool checkBox(int (&grid)[9][9], int boxStartRow, int boxStartCol, int row, int col, int num){
+//check whether num is present in 3x3 box or not
+   for (int i = 0; i < 3; i++){
+      for (int j = 0; j < 3; j++){
+         if ((i + boxStartRow) == row && (j + boxStartCol) == col)
+            continue;
+         if (grid[i + boxStartRow][j + boxStartCol] == num)
+            return true;
+      }
+   }
    return false;
 }
 
@@ -124,7 +160,7 @@ int getHint(int (&grid)[9][9], int &hints){
          }
       }
    }else{
-      cout << "You have " << hints << ".\n";
+      cout << "You have " << hints << " hints.\n";
    }
    return 0;
 }
@@ -142,7 +178,7 @@ bool checkBlanks(int (&grid)[9][9]){
    for(int row = 0; row < 9; row++){
       for(int col = 0; col < 9; col++){
          if(grid[row][col] == 0){
-            cout << "You still have blank/s in the puzzle.";
+            cout << "You still have blank/s in the puzzle.\n";
             return true;
          }
       }
@@ -151,14 +187,14 @@ bool checkBlanks(int (&grid)[9][9]){
 }
 
 bool checkSudoku(int (&grid)[9][9]){
-   for(int row = 0; row < 9; row++){
-      for(int col = 0; col < 9; col++){
-         if(isValidPlace(grid, row, col, grid[row][col])){
+   for(int row = 0; row < N; row++){
+      for(int col = 0; col < N; col++){
+         if(!checkRow(grid, row, col, grid[row][col]) && !checkCol(grid, row, col, grid[row][col]) && !checkBox(grid, row - row % 3, col - col % 3, row, col, grid[row][col])){
             continue;
          }else{
             cell.value = grid[row][col];
-            cell.row = row;
-            cell.col = col;
+            cell.row   = row;
+            cell.col   = col;
 
             cells.push_back(cell);
          }
@@ -166,13 +202,28 @@ bool checkSudoku(int (&grid)[9][9]){
    }
 
    if(!cells.empty()){
+      cout << "Wrong Cells:\n";
       for(auto cell:cells){
-         cout << "Wrong Cells:\n";
-         cout << "Value: " << cell.value << "\tRow: " << cell.row << "\tCol: " << cell.col << endl;
+         cout << "Value: " << cell.value << "\tRow: " << cell.row + 1 << "\tCol: " << cell.col + 1 << endl;
       }
+      cells.clear();
       return false;
    }
 
    return true;
+}
 
+bool isOccupied(string command, int (&copy_grid)[9][9]){
+   if(copy_grid[int(command[1]) - 49][int(command[2]) - 49] != 0){
+      return true;
+   }
+   return false;
+}
+
+void copyGrid(int (&grid)[9][9], int (&copy_grid)[9][9]){
+   for(int row = 0; row < N; row++){
+      for(int col = 0; col < N; col++){
+         copy_grid[row][col] = grid[row][col];
+      }
+   }
 }

@@ -10,10 +10,11 @@ Based on the algorithm pulled from this website: https://www.tutorialspoint.com/
 #include "sudoku_functions.hpp"
 
 int grid[N][N];
+int copy_grid[N][N];
 
 int main(){
     int value = 0;
-    int hints = 10;
+    int hints = 40;
 
     generateRow(grid);
     solveSudoku(grid);
@@ -21,6 +22,7 @@ int main(){
     cout << "Sudoku puzzle generated...\n";
     
     fillBlanks(grid);
+    copyGrid(grid, copy_grid);
     printSudoku(grid);
 
     string command;
@@ -35,8 +37,12 @@ int main(){
             getHint(grid, hints);
             printSudoku(grid);
         }else if (isNumber(command)){
-            grid[int(command[1]) - 49][int(command[2]) - 49] = int(command[0] - 48);
-            printSudoku(grid);
+            if(!isOccupied(command, copy_grid)){
+                grid[int(command[1]) - 49][int(command[2]) - 49] = int(command[0] - 48);
+                printSudoku(grid);
+            }else{
+                cout << "That cell is occupied. Choose another cell.\n";
+            }
         }else if(command == "solve"){
             if(checkBlanks(grid)){
                 continue;
@@ -48,10 +54,11 @@ int main(){
                 }
             }
         }else{
-            cout << "Please enter a command\n";
+            cout << "Please enter a command\n"; // NOT WORKING
         }
     }
 
     cout << "Exiting program...";
+    return 0;
 
 }
